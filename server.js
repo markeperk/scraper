@@ -13,6 +13,7 @@ app.use(bodyParser.json())
 
 app.get('/scrape', scrapeController.scrape)
 
+
 app.listen('8081');
 console.log('listening on port 8081');
 exports = module.exports = app;
