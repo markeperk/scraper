@@ -186,12 +186,26 @@ module.exports.scrape = function(arr) {
 						var data = $(this), nearestCities = [], num = data.find("p").length;
 						function ncString() {
 							for (var i = 0; i < num; i++) {
-								var str = data.find("p:nth-child(" + i + ")").first().text().replace(/[-%,()]/g, '').trim().replace(/\s+/g, ' ');
+								
+								var str = data.find("p:nth-child(" + i + ")")
+								.first()
+								.text()
+								.replace(/[-%,()]/g, '')
+								.trim()
+								.replace(/\s+/g, ' ');
+								
 								var newStr = str.substring((str.search(/\d/)), str.length).trim().split(' ');
+								
 								if (newStr.length > 1) {
+									
 									var state = str.match(/[A-Z]{2}/g);
+									
 									var stateIndex = newStr.indexOf(state[0]);
-									if (stateIndex === 2) {var nearCity = newStr[1]} else if (stateIndex - 2 === 1) { var nearCity = newStr[1] + " " + newStr[2]} else if (stateIndex - 2 === 2) { var nearCity = newStr[1] + " " + newStr[2] + " " + newStr[3] }
+									
+									if (stateIndex === 2) var nearCity = newStr[1];
+									else if (stateIndex - 2 === 1) var nearCity = newStr[1] + " " + newStr[2];
+									else if (stateIndex - 2 === 2) var nearCity = newStr[1] + " " + newStr[2] + " " + newStr[3];
+									
 									nearestCities.push({
 										'population threshold': +(newStr[0].replace(/[^0-9]/g, '').trim()), 
 										'city': nearCity,
@@ -241,12 +255,11 @@ module.exports.scrape = function(arr) {
 						td = data.text();
 						diff =  td.substring(td.indexOf('%') + 1, td.indexOf('%') + 9).trim()
 						tdStr = +(td.substring(td.search(/\d/), td.indexOf('%'))/100)
-						if (diff === "greater") {
-							loc.cityDifferenceToUSATornadoAvg = "+" + tdStr
-						} else { 
-							loc.cityDifferenceToUSATornadoAvg = "-" + tdStr
-						}
+						if (diff === "greater") loc.cityDifferenceToUSATornadoAvg = "+" + tdStr;
+				    else loc.cityDifferenceToUSATornadoAvg = "-" + tdStr;
 					});
+
+//diff  === 'greater' ? --true-- : --false--
 
 					//earthquake percentage
 					$('.earthquakes').filter(function() {
